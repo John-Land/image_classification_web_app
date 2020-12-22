@@ -72,7 +72,7 @@ def main():
     st.header("Input image URL")
     user_input = st.text_input("Paste Imange Web URL here")
 
-    while user_input is True:
+    if user_input:
         image_url = str(user_input)
     
         #download image
