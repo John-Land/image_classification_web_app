@@ -7,6 +7,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import urllib.request
 import pandas as pd
+import seaborn as sns
+import matplotlib.ticker as mtick
 
 def main():
     
@@ -95,9 +97,25 @@ def main():
         prediction = predict_image_label(preprocessed_img)
         prediction = pd.DataFrame(prediction)
         prediction.columns = ['Class', 'Probability']
+        prediction['Probability'] = prediction['Probability']
+        
+        #plot predictions
+        fig, ax = plt.subplots()
+        ax = sns.barplot(x='Probability', y="Class", data=prediction, palette='Blues_r')
+        ax.set(xlim=(0, 1), ylabel="")
+        ax.xaxis.set_major_formatter(mtick.PercentFormatter(xmax=1))
+     
+        sns.despine(left=True, bottom=True)
+        ax.grid(False)
+
+        for rect in ax.patches:
+            # Get X and Y placement of label from rect.
+            y_value = rect.get_y() + rect.get_height() / 2
+            x_value = rect.get_width()
     
-        st.table(prediction)
+            label = "{0:.1%}".format(x_value)
+            
+            ax.annotate(label,(x_value+0.05, y_value),ha='center',va='center')
+        
+        st.pyplot(fig)
     
-    
-if __name__ == '__main__':
-    main()
