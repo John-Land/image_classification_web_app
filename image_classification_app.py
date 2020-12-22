@@ -6,7 +6,7 @@ from tensorflow.keras.preprocessing import image
 import matplotlib.pyplot as plt
 import urllib.request
 import pandas as pd
-import numpy as pd
+import numpy as np
 
 def main():
     
