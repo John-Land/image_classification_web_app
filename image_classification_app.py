@@ -3,7 +3,6 @@ import tensorflow as tf #deep learning
 from tensorflow import keras #deep learning
 from tensorflow.keras.applications.resnet50 import preprocess_input, decode_predictions
 from tensorflow.keras.preprocessing import image
-import numpy as np
 import matplotlib.pyplot as plt
 import urllib.request
 import pandas as pd
