@@ -102,7 +102,7 @@ def main():
         #plot predictions
         fig, ax = plt.subplots()
         ax = sns.barplot(x='Probability', y="Class", data=prediction, palette='Blues_r')
-        ax.set(xlim=(0, 1.05), ylabel="")
+        ax.set(xlim=(0, 1.06), ylabel="")
         ax.xaxis.set_major_formatter(mtick.PercentFormatter(xmax=1))
      
         sns.despine(left=True, bottom=True)
@@ -115,7 +115,7 @@ def main():
     
             label = "{0:.1%}".format(x_value)
             
-            ax.annotate(label,(x_value+0.04, y_value),ha='center',va='center')
+            ax.annotate(label,(x_value+0.05, y_value),ha='center',va='center')
         
         st.pyplot(fig)
     
