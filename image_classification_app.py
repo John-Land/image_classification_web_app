@@ -71,9 +71,13 @@ def main():
     st.sidebar.markdown("Image Classifcation with the ResNet50 model")
     st.sidebar.subheader("Reference")
     st.sidebar.markdown("""The model used for image classification is the ResNet50 model, pre-trained on the ImageNet dataset.<br><br>
-    The model weights from ImageNet were used, without re-training of the model. Predictions are made on the original 1000 classes in the ImageNet dataset. <br>
-    For more information about the ResNet50 model, refer to [the paper “Deep Residual Learning for Image Recognition”]( https://arxiv.org/abs/1512.03385) by Kaiming He, Xiangyu Zhang, Shaoqing Ren and Jian Sun. <br>
-    For the Keras implementation of the ResNet50, refer to [the Keas documentation.] ( https://keras.io/api/applications/resnet/#resnet50-function) <br>
+    
+    The model weights from ImageNet were used, without re-training of the model. Predictions are made on the original 1000 classes in the ImageNet dataset.<br>
+    
+    For more information about the ResNet50 model, refer to [the paper “Deep Residual Learning for Image Recognition”]( https://arxiv.org/abs/1512.03385) by Kaiming He, Xiangyu Zhang, Shaoqing Ren and Jian Sun.<br>
+    
+    For the Keras implementation of the ResNet50, refer to [the Keas documentation.] ( https://keras.io/api/applications/resnet/#resnet50-function)<br>
+    
     For more information about the ImageNet dataset, refer to the [ImageNet webpage.]( http://www.image-net.org/)
 """,unsafe_allow_html=True)
 
