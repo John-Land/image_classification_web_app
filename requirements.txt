@@ -208,7 +208,7 @@ wheel
 widgetsnbextension
 win_inet_pton
 wincertstore
-winpty
+
 wordcloud
 wrapt
 xlrd
