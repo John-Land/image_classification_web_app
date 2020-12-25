@@ -198,7 +198,7 @@ tzlocal
 urllib3
 validators
 vc
-vs2015_runtime
+
 watchdog
 wcwidth
 webencodings
