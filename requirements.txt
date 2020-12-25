@@ -101,7 +101,7 @@ nest-asyncio
 networkx
 notebook
 numpy
-numpy-base
+
 oauthlib
 olefile
 opencv-python
