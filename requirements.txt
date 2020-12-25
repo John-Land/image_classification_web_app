@@ -84,7 +84,7 @@ libtiff
 
 
 
-m2w64-gmp
+
 m2w64-libwinpthread-git
 markdown
 markupsafe
