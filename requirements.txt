@@ -166,7 +166,7 @@ setuptools
 sip
 six
 smmap
-sqlite
+
 statsmodels
 streamlit
 tensorboard
