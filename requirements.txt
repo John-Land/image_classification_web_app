@@ -1,4 +1,3 @@
-_tflow_select
 absl-py
 aiohttp
 altair
@@ -226,3 +225,4 @@ zeromq
 zipp
 zlib
 zstd
+_tflow_select
