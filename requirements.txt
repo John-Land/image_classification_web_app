@@ -216,7 +216,7 @@ xlrd
 
 yarg
 yarl
-zeromq
+
 zipp
 zlib
 zstd
