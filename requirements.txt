@@ -2,7 +2,6 @@ streamlit
 pandas
 numpy
 matplotlib
-tf_explain
 tensorflow==2.1.0
+tf_explain
 seaborn
-cv2
