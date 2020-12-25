@@ -137,7 +137,7 @@ pygments
 pyjwt
 pyopenssl
 pyparsing
-pyqt
+
 pyreadline
 pyrsistent
 pysocks
