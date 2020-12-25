@@ -81,7 +81,7 @@ kiwisolver
 
 libtiff
 
-m2w64-gcc-libgfortran
+
 m2w64-gcc-libs
 m2w64-gcc-libs-core
 m2w64-gmp
