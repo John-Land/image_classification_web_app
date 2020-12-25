@@ -78,7 +78,7 @@ keras-applications
 keras-preprocessing
 kiwisolver
 
-libprotobuf
+
 libsodium
 libtiff
 lz4-c
