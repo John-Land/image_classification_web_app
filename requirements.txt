@@ -91,7 +91,7 @@ matplotlib
 
 mistune
 mkl
-mkl-service
+
 mkl_fft
 mkl_random
 msys2-conda-epoch
