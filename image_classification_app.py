@@ -9,7 +9,8 @@ import urllib.request
 import pandas as pd
 import seaborn as sns
 import matplotlib.ticker as mtick
-from tf_explain.core.grad_cam import GradCAM
+import tf_explain as tf_explain 
+import tf_explain import core.grad_cam as GradCAM
 
 
 def main():
@@ -164,7 +165,6 @@ For more information about the ImageNet dataset, refer to the [ImageNet webpage.
         #plot class activation map
         fig, (ax1, ax2) = plt.subplots(1, 2)
         ax1.set_title("Original image", fontsize=8)
-        
         ax1.imshow(img_array.astype(int))
         ax1.axis('off')
         ax2.set_title("Class Activation Map", fontsize=8)
