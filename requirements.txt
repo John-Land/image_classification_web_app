@@ -92,7 +92,7 @@ matplotlib
 mistune
 mkl
 
-msys2-conda-epoch
+
 multidict
 nbclient
 nbconvert
