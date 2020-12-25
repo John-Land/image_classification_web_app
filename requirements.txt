@@ -4,4 +4,4 @@ numpy
 matplotlib
 tensorflow==2.1.0
 seaborn
-tf-explain
+tf_explain
