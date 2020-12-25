@@ -177,7 +177,7 @@ tensorflow-datasets
 tensorflow-estimator
 tensorflow-hub
 tensorflow-metadata
-tensorflow-model-optimizat
+
 termcolor
 terminado
 testpath
