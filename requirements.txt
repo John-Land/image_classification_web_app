@@ -146,7 +146,7 @@ python-dateutil
 python-slugify
 pytz
 pywavelets
-pywin32
+
 pywinpty
 pyyaml
 pyzmq
