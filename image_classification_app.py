@@ -9,6 +9,7 @@ import urllib.request
 import pandas as pd
 import seaborn as sns
 import matplotlib.ticker as mtick
+from tf_explain.core.grad_cam import GradCAM
 
 def main():
     
@@ -21,6 +22,7 @@ def main():
         model = tf.keras.applications.resnet50.ResNet50()
         return model
     
+    @st.cache(suppress_st_warning=True)
     #download image from provided user url
     def download_image(image_url):
         # Adding information about user agent
@@ -39,25 +41,39 @@ def main():
         img = image.load_img(filename)
         return img
     
-    #preprocess image for model 
-    def preprocessed_image(img):
+    @st.cache(suppress_st_warning=True)
+    #convert image to array
+    def covert_image_to_array(img):
         img_array = image.img_to_array(img) #convert image to array
-        img_batch = np.expand_dims(img_array, axis=0)  #add additional dimension for batch size
-        img_resized = tf.image.resize(img_batch, [224, 224]) #resize image for the model
-        img_preprocessed = preprocess_input(img_resized) #preprocess the image
+        return img_array
+    
+    @st.cache(suppress_st_warning=True)
+    def resize_img(img_array, pixel_height, pixel_width):
+        img_resized = tf.image.resize(img_array, [pixel_height, pixel_width]) #resize image for the model
+        return img_resized
+    
+    #preprocess image for model
+    @st.cache(suppress_st_warning=True)
+    def preprocessed_image(img_resized):
+        img_batch = np.expand_dims(img_resized.numpy(), axis=0)  #add additional dimension for batch size
+        img_preprocessed = preprocess_input(img_batch) #preprocess the image
         return img_preprocessed
     
     #predict class lebel of image
-    def predict_image_label(preprocessed_img):
+    def predict_class_probabilities(preprocessed_img):
         #predict and decode predictions
         prediction = model.predict(preprocessed_img)
+        return prediction
+    
+    @st.cache(suppress_st_warning=True)
+    def decode_predictions_top_five(prediction):
         decoded_prediction = decode_predictions(prediction, top=5)[0]
         
         #prediction list of class name and class probability
         prediction_list = []
         for i in range(5):
             prediction_list.append(decoded_prediction[i][1:3])
-        
+            
         return prediction_list
 
     
@@ -71,10 +87,12 @@ def main():
     st.sidebar.markdown("Image Classifcation with the ResNet50 model")
     st.sidebar.subheader("Reference")
     st.sidebar.markdown("""The model used for image classification is the ResNet50 model, pre-trained on the ImageNet dataset.<br><br>
-    The model weights from ImageNet were used, without re-training of the model. Predictions are made on the original 1000 classes in the ImageNet dataset.<br><br>
-    For more information about the ResNet50 model, refer to [the paper “Deep Residual Learning for Image Recognition”]( https://arxiv.org/abs/1512.03385) by Kaiming He, Xiangyu Zhang, Shaoqing Ren and Jian Sun.<br><br>
-    For the Keras implementation of the ResNet50, refer to [the Keas documentation.] ( https://keras.io/api/applications/resnet/#resnet50-function)<br><br>
-    For more information about the ImageNet dataset, refer to the [ImageNet webpage.]( http://www.image-net.org/)
+For more information about the ResNet50 model, refer to [the paper “Deep Residual Learning for Image Recognition”]( https://arxiv.org/abs/1512.03385) by Kaiming He, Xiangyu Zhang, Shaoqing Ren and Jian Sun. <br>
+
+The model weights from ImageNet were used, without re-training of the model. Predictions are made on the original 1000 classes in the ImageNet dataset. <br>
+For the Keras implementation of the ResNet50, refer to [the Keas documentation.] ( https://keras.io/api/applications/resnet/#resnet50-function) <br>
+
+For more information about the ImageNet dataset, refer to the [ImageNet webpage.]( http://www.image-net.org/)
 """,unsafe_allow_html=True)
 
     
@@ -98,11 +116,15 @@ def main():
         model = download_model()
     
         #preprocess image for model 
-        preprocessed_img = preprocessed_image(img)
+        img_array = covert_image_to_array(img)
+        img_resized = resize_img(img_array, 224, 224)
+        preprocessed_img = preprocessed_image(img_resized)
     
         st.subheader("Model Prediction")
+        st.markdown("What are the five most probable classes?")
         #predict class lebel of image
-        prediction = predict_image_label(preprocessed_img)
+        prediction_class_probabilities = predict_class_probabilities(preprocessed_img)
+        prediction = decode_predictions_top_five(prediction_class_probabilities)
         prediction = pd.DataFrame(prediction)
         prediction.columns = ['Class', 'Probability']
         prediction['Probability'] = prediction['Probability']
@@ -126,8 +148,38 @@ def main():
             ax.annotate(label,(x_value+0.05, y_value),ha='center',va='center')
         
         st.pyplot(fig)
-    
-    
+        
+        st.subheader("Class Activation Map for most probable Class")
+        st.markdown("Where is the model looking, when making the prediction for the most probable class?")
+        
+                
+        
+        #get class activiation map for class with highest probability
+        explainer = GradCAM()
+        index_of_top_prediction = np.argmax(prediction_class_probabilities)
+        img_preprocessed = preprocessed_img
+        img_preprocessed = np.squeeze(img_preprocessed, axis=0)
+        data = ([img_preprocessed], None)
+        img_CAM = explainer.explain(validation_data = data, 
+                                    model=model, layer_name="conv5_block3_out", 
+                                    class_index=index_of_top_prediction)
+        img_CAM_resized = resize_img(img_CAM, img_array.shape[0], img_array.shape[1]).numpy().astype(int) 
+        
+        #plot class activation map
+        fig, (ax1, ax2) = plt.subplots(1, 2)
+        ax1.set_title("Original image", fontsize=8)
+        
+        ax1.imshow(img_array.astype(int))
+        ax1.axis('off')
+        ax2.set_title("Class Activation Map", fontsize=8)
+        ax2.imshow(img_CAM_resized)
+        ax2.axis('off')
+        st.pyplot(fig)
+
+
+        
+
+ 
     
 if __name__ == '__main__':
     main()
