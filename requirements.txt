@@ -107,7 +107,7 @@ olefile
 opencv-python
 opencv-python-headless
 openpyxl
-openssl
+
 opt-einsum
 packaging
 pandas
