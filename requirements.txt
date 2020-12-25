@@ -9,7 +9,6 @@ async_generator
 attrs
 backcall
 base58
-blas
 bleach
 blinker
 boto3
