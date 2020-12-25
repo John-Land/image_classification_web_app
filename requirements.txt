@@ -213,7 +213,7 @@ wordcloud
 wrapt
 xlrd
 
-yaml
+
 yarg
 yarl
 zeromq
