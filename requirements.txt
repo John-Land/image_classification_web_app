@@ -79,7 +79,6 @@ keras-preprocessing
 kiwisolver
 
 
-libsodium
 libtiff
 lz4-c
 m2w64-gcc-libgfortran
