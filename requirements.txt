@@ -36,7 +36,7 @@ entrypoints
 enum-compat
 et_xmlfile
 flatbuffers
-freetype
+
 future
 gast
 gin-config
