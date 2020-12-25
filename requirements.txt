@@ -141,7 +141,7 @@ pyparsing
 pyreadline
 pyrsistent
 pysocks
-python
+
 python-dateutil
 python-slugify
 pytz
