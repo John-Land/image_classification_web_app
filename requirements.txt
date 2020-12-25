@@ -14,7 +14,7 @@ blinker
 boto3
 botocore
 brotlipy
-ca-certificates
+
 cachetools
 certifi
 cffi
