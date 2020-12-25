@@ -6,3 +6,4 @@ tf_explain
 tf-explain
 tensorflow==2.1.0
 seaborn
+cv2
