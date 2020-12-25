@@ -49,7 +49,7 @@ googleapis-common-protos
 grpcio
 gym
 h5py
-hdf5
+
 icc_rt
 icu
 idna
