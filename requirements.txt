@@ -150,7 +150,7 @@ pywavelets
 pywinpty
 pyyaml
 pyzmq
-qt
+
 requests
 requests-oauthlib
 retrying
