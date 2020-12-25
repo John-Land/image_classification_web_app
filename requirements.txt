@@ -212,7 +212,7 @@ wincertstore
 wordcloud
 wrapt
 xlrd
-xz
+
 yaml
 yarg
 yarl
