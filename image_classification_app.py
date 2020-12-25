@@ -9,7 +9,7 @@ import urllib.request
 import pandas as pd
 import seaborn as sns
 import matplotlib.ticker as mtick
-from tf_explain.core.grad_cam import GradCAM
+
 
 def main():
     
@@ -149,32 +149,6 @@ For more information about the ImageNet dataset, refer to the [ImageNet webpage.
         
         st.pyplot(fig)
         
-        st.subheader("Class Activation Map for most probable Class")
-        st.markdown("Where is the model looking, when making the prediction for the most probable class?")
-        
-                
-        
-        #get class activiation map for class with highest probability
-        explainer = GradCAM()
-        index_of_top_prediction = np.argmax(prediction_class_probabilities)
-        img_preprocessed = preprocessed_img
-        img_preprocessed = np.squeeze(img_preprocessed, axis=0)
-        data = ([img_preprocessed], None)
-        img_CAM = explainer.explain(validation_data = data, 
-                                    model=model, layer_name="conv5_block3_out", 
-                                    class_index=index_of_top_prediction)
-        img_CAM_resized = resize_img(img_CAM, img_array.shape[0], img_array.shape[1]).numpy().astype(int) 
-        
-        #plot class activation map
-        fig, (ax1, ax2) = plt.subplots(1, 2)
-        ax1.set_title("Original image", fontsize=8)
-        
-        ax1.imshow(img_array.astype(int))
-        ax1.axis('off')
-        ax2.set_title("Class Activation Map", fontsize=8)
-        ax2.imshow(img_CAM_resized)
-        ax2.axis('off')
-        st.pyplot(fig)
 
 
         
