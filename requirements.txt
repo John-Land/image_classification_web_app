@@ -2,7 +2,7 @@ streamlit
 pandas
 numpy
 matplotlib
-tf_explain.core.grad_cam
+tf_explain.core
 tensorflow==2.1.0
 seaborn
 cv2
