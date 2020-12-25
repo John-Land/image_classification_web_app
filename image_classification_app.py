@@ -9,9 +9,7 @@ import urllib.request
 import pandas as pd
 import seaborn as sns
 import matplotlib.ticker as mtick
-import tf_explain as tf_explain 
-from tf_explain import core.grad_cam as GradCAM
-
+import tf_explain.core.grad_cam as GradCAM
 
 def main():
     
