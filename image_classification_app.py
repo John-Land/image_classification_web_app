@@ -9,7 +9,7 @@ import urllib.request
 import pandas as pd
 import seaborn as sns
 import matplotlib.ticker as mtick
-import tf_explain.core.grad_cam as GradCAM
+from tf_explain.core.grad_cam import GradCAM
 
 def main():
     
@@ -150,7 +150,7 @@ For more information about the ImageNet dataset, refer to the [ImageNet webpage.
         st.pyplot(fig)
 
         #get class activiation map for class with highest probability
-        explainer = tf_explain.core.grad_cam()
+        explainer = GradCAM()
         index_of_top_prediction = np.argmax(prediction_class_probabilities)
         img_preprocessed = preprocessed_img
         img_preprocessed = np.squeeze(img_preprocessed, axis=0)
