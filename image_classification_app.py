@@ -10,7 +10,6 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.ticker as mtick
 
-
 def main():
     
     
@@ -75,6 +74,34 @@ def main():
             prediction_list.append(decoded_prediction[i][1:3])
             
         return prediction_list
+    
+    #get outlut last conv layer for preprocessed image
+    def get_output_last_conv_layer(layer_name, preprocessed_img):
+        intermediate_layer_model = keras.Model(inputs=model.input,
+                                       outputs=model.get_layer(layer_name).output)
+        intermediate_output = intermediate_layer_model(preprocessed_img)
+        return intermediate_output.numpy()[0]
+
+    #get weights in output layer to top predicted class
+    def get_weights_top_class_output_layer(prediction):
+        weights_top_class_output_layer = (model.layers[-1].get_weights()[0][:,np.argmax(prediction)]).reshape(-1, 1)
+        return weights_top_class_output_layer
+    
+    #get class activation map
+    @st.cache(suppress_st_warning=True)
+    def get_class_activiation_map(output_last_conv_layer, weights_top_class_output_layer):
+        class_activation_map = np.dot(output_last_conv_layer, weights_top_class_output_layer)
+        return class_activation_map
+
+    def plot_img_with_class_activation_map(image, class_activation_map):
+        image_height = image.shape[0]
+        image_width = image.shape[1]
+        cam_resized = tf.image.resize(class_activation_map, [image_height, image_width]).numpy()
+        fig, ax = plt.subplots()
+        ax.imshow(image.astype(int))
+        ax.imshow(cam_resized, cmap='jet', alpha=0.5)
+        plt.axis('off')
+        return fig  
 
     
     #web app
@@ -92,7 +119,9 @@ For more information about the ResNet50 model, refer to [the paper “Deep Resid
 The model weights from ImageNet were used, without re-training of the model. Predictions are made on the original 1000 classes in the ImageNet dataset. <br>
 For the Keras implementation of the ResNet50, refer to [the Keas documentation.] ( https://keras.io/api/applications/resnet/#resnet50-function) <br>
 
-For more information about the ImageNet dataset, refer to the [ImageNet webpage.]( http://www.image-net.org/)
+For more information about the ImageNet dataset, refer to the [ImageNet webpage.]( http://www.image-net.org/)<br>
+
+For more information about Class Activation Maps, refer to [the paper “Learning Deep Features for Discriminative Localization”]( https://arxiv.org/abs/1512.04150) by Bolei Zhou, Aditya Khosla, Agata Lapedriza, Aude Oliva, Antonio Torralba. <br>
 """,unsafe_allow_html=True)
 
     
@@ -148,7 +177,23 @@ For more information about the ImageNet dataset, refer to the [ImageNet webpage.
             ax.annotate(label,(x_value+0.05, y_value),ha='center',va='center')
         
         st.pyplot(fig)
+        
+                
+        #plot class activation map
+        st.subheader("Class Activation Map for most probable Class")
+        st.markdown("Where is the model looking, when making the prediction for the most probable class?")
 
+        last_conv_layer_name = 'conv5_block3_out'
+        output_last_conv_layer = get_output_last_conv_layer(last_conv_layer_name, preprocessed_img)
+        weights_top_class_output_layer = get_weights_top_class_output_layer(prediction_class_probabilities)
+        class_activation_map = get_class_activiation_map(output_last_conv_layer, weights_top_class_output_layer)
+        fig = plot_img_with_class_activation_map(img_array, class_activation_map)
+        st.pyplot(fig)
+        
+        
+
+
+        
     
 if __name__ == '__main__':
     main()
